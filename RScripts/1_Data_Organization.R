@@ -52,8 +52,8 @@ wells<-projectRaster(wells, crs=p)
 counties<-counties %>% st_transform(., crs=st_crs(p))
 
 #export data
-
-
+writeRaster(wells, paste0(work_dir,"wells.tif"))
+st_write(counties, paste0(work_dir,"counties.shp"))
 
 
 
