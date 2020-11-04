@@ -45,9 +45,35 @@ counties <- st_transform(counties,crs=4326)
 ncwelldata <- st_intersection(welldata,counties)
 
 #rasterize to create raster with count of tests in each cell
-ncwellmap <-raster()
+ncwellmap <-raster(ncol=2624,nrow=1186)
 extent(ncwellmap) <- extent(ncwelldata)
-rasterize(ncwelldata,ncwellmap,fun="count")
- 
+res(ncwellmap) <- .03
 
+#Total testing count raster
+totaltests <- rasterize(ncwelldata,ncwellmap,field='ID',fun="count")
+
+
+#Separating data by year 
+ncwelldata09 <- ncwelldata[ncwelldata$Year == 2009,]
+ncwelldata10 <- ncwelldata[ncwelldata$Year == 2010,]
+ncwelldata11 <- ncwelldata[ncwelldata$Year == 2011,]
+ncwelldata12 <- ncwelldata[ncwelldata$Year == 2012,]
+ncwelldata13 <- ncwelldata[ncwelldata$Year == 2013,]
+ncwelldata14 <- ncwelldata[ncwelldata$Year == 2014,]
+ncwelldata15 <- ncwelldata[ncwelldata$Year == 2015,]
+ncwelldata16 <- ncwelldata[ncwelldata$Year == 2016,]
+ncwelldata17 <- ncwelldata[ncwelldata$Year == 2017,]
+ncwelldata18 <- ncwelldata[ncwelldata$Year == 2018,]
+
+#Creating rasters for each year 
+tests09 <- rasterize(ncwelldata09,ncwellmap,field='ID',fun="count")
+tests10 <- rasterize(ncwelldata10,ncwellmap,field='ID',fun="count")
+tests11 <- rasterize(ncwelldata11,ncwellmap,field='ID',fun="count")
+tests12 <- rasterize(ncwelldata12,ncwellmap,field='ID',fun="count")
+tests13 <- rasterize(ncwelldata13,ncwellmap,field='ID',fun="count")
+tests14 <- rasterize(ncwelldata14,ncwellmap,field='ID',fun="count")
+tests15 <- rasterize(ncwelldata15,ncwellmap,field='ID',fun="count")
+tests16 <- rasterize(ncwelldata16,ncwellmap,field='ID',fun="count")
+tests17 <- rasterize(ncwelldata17,ncwellmap,field='ID',fun="count")
+tests18 <- rasterize(ncwelldata18,ncwellmap,field='ID',fun="count")
 
