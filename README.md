@@ -1,3 +1,3 @@
-# Analysis of North Carolina Well Wate Quality
+# Analysis of North Carolina Well Water Quality
 
-Code associated with collaboration between the Peiper Public Health Engineering Lab and the Jones Ecohydrology Lab. Contact Nate Jones (cnjones7@ua.edu) for more information.
+Using DHHS well testing data to determine access to testing and risk of contamination for North Carolina Well Users. Part of the Pieper Lab at Northeastern University. Contact: Wesley Hayes (hayes.w@northeastern.edu).
