@@ -9,8 +9,8 @@
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 # 1.0 Setup---------------------------------------------------------------------
-# Clears workspace, adds necesarry packages, defines directory, reads relevant
-# files, formats database NAs, and fixes date formating
+# Clears workspace, adds necessary packages, defines directory, reads relevant
+# files, formats database NAs, and fixes date formatting
 #
 
 remove(list=ls())
@@ -40,11 +40,24 @@ data$Date <- mdy(data$Date)
 # Currently, this section creates a unique identifier for each well, messily
 # organizes tests and creates a test identifier, and produces summery or subset
 # dataframes to outline testing breakdown. 
-#
 
 #creating a wellid column to act as a unique identifier for each test location
+#need to look at the possibility of different lat-longs for the same address
 data <- data %>% mutate(wellid=paste(Lat,Long))
 data <- data %>% mutate(wellid=as.integer(factor(wellid)))
+
+datalong <- data %>% pivot_longer(cols=TC:Hg,names_to="Parameter",values_to="Value")
+
+initperpara <- datalong %>% group_by(wellid,Parameter) %>% na.omit()
+initperpara <- initperpara %>% filter(Date==min(Date))
+subdata <- initperpara %>% summarize(n=n()) %>% filter(n==1)
+ungroup(subdata)
+ungroup(initperpara)
+paracount <- subdata %>% group_by(Parameter) %>% summarize(n=n())
+
+
+# 2.1 Original Test Organizing --------------------------------------
+
 
 #creating a testvariable variable - maybe not the best way but...
 data$testvariable <- paste(is.na(data$TC),is.na(data$EC),
@@ -61,7 +74,7 @@ data$testvariable <- paste(is.na(data$TC),is.na(data$EC),
                            is.na(data$Hg))
 
 #Listing different iterations of test types
-testtypes <- data %>% group_by(testvariable) %>% summarise(n=n())
+testtypes <- data %>% group_by(testvariable) %>% summarize(n=n())
 
 #creating a subset of initial tests (tests occurring the first day)
 initdata <- data %>% group_by(wellid) %>% filter(Date == min(Date))
